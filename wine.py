@@ -81,7 +81,11 @@ model=joblib.load("wine_model.pkl")
 
 
 # %%
-new_wine = [[7.3,1.9, 0.57]]
+citric_acid=float(input("Enter ur amount of citric acid between 0 to 1: "))
+sulphate=float(input("Enter ur amount of salphate between 0 to 1: "))
+alcohol=float(input("Enter ur amount of alcohol between 0 to 1: "))
+
+new_wine = [[citric_acid,sulphate,alcohol]]
 
 prediction = model.predict(new_wine)
 
@@ -92,5 +96,17 @@ print("Predicted wine quality:", prediction)
 # %%
 import os
 print(os.getcwd())
+
+import streamlit as st
+st.title("Wine Quality Prediction")
+st.write("This app predicts the quality of wine based on its chemical properties.")
+alcohol = st.number_input("Alcohol Content", min_value=0.0, max_value=20.0, value=10.0)
+sulphates = st.number_input("Sulphates", min_value=0.0, max_value=5.0, value=0.5)
+citric_acid = st.number_input("Citric Acid", min_value=0.0, max_value=10.0, value=0.5)
+if st.button("Predict Quality"):
+    input_data = [[citric_acid, sulphates, alcohol]]
+    prediction = model.predict(input_data)
+    st.write(f"Predicted Wine Quality: {prediction[0]:.2f}")
+    
 
 
